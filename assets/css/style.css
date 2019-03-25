@@ -1,0 +1,33 @@
+.container
+{
+    background-color: #ffe680;
+    margin-left: 150px;
+    margin-right: 150px;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+    padding: 40px;
+    word-spacing: 20px;
+    padding-bottom: 85px;
+    
+}
+
+ol li
+{
+    list-style: none;
+    padding: 30px;
+    display: inline;
+    font-size: 20px;
+
+    
+}
+.head
+{
+    font-family: fantasy;
+    font-style: oblique;
+    font-size: 30px;
+    line-height: 30px;
+    word-spacing: 10px;
+    letter-spacing: 5px;
+    color: royalblue;
+}
