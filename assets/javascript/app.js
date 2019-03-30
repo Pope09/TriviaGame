@@ -31,21 +31,22 @@ $(document).ready(function () {
             Ans: 1,
         }];
 
-        var correctAns = 0;
-        var wrongAns = 0;
-        var unAnsd = 0;
-        var timer = 30;
-        var intervalId;
-        var userGuess = "";
-        var running = false;
-        var NumQuestion = output.length;
-        var index =  Math.floor(Math.random() * NumQuestion);
-        var pick = output[index];
-        var newArray = [];
-        var holder = [];
+    var correctAns = 0;
+    var wrongAns = 0;
+    var unAnsd = 0;
+    var timer = 30;
+    var intervalId;
+    var userGuess = "";
+    var running = false;
+    var NumQuestion = output.length;
+    var index = Math.floor(Math.random() * NumQuestion);
+    var pick = output[index];
+    var newArray = [];
+    var holder = [];
+    
 
-    
-    
+
+
     //starting the timer
     function runTimer() {
         if (!running) {
@@ -58,6 +59,8 @@ $(document).ready(function () {
     function stop() {
         running = false;
         clearInterval(intervalId);
+        timer = 30;
+
     }
 
     function showQuestion() {
@@ -80,16 +83,11 @@ $(document).ready(function () {
     $("#start").on("click", function () {
         $("#start").hide();
         $("#reset").hide();
-        showQuestion();
-        makeOnClick();
-        runTimer();
-        
-   
-        for (var i = 0; i < output.length; i++) {
-            holder.push(output[i]);
-        }
+        Nextquest();
+
+
     });
-    
+
 
     //countdown of the timer
     function decrement() {
@@ -106,31 +104,46 @@ $(document).ready(function () {
     }
 
 
-   
-function makeOnClick(){
 
-    
-    $(".answerchoice").on("click", function () {
-        //pick array position from userGuess
-        console.log("answerchoice");
-        userGuess = parseInt($(this).attr("user_data"));
-        //outcomes results
-        if (userGuess === pick.answer) {
-            stop();
-            correctAns++;
-            userGuess = "";
-            $("#answer_plate").html("<p>Correct!</p>");
-            
-            
-        } else {
-            stop();
-            wrongAns++;
-            userGuess = "";
-            $("#answer_plate").html("<p>Wrong! The correct answer is: " + pick.Choice[pick.Ans] + "</p>");
-            
+    function makeOnClick() {
+
+
+        $(".answerchoice").on("click", function () {
+            //pick array position from userGuess
+            console.log("answerchoice");
+            userGuess = parseInt($(this).attr("user_data"));
+            //outcomes results
+            if (userGuess === pick.answer) {
+                stop();
+                correctAns++;
+                userGuess = "";
+                $("#answer_plate").html("<p>Correct!</p>");
+
+
+            } else {
+                stop();
+                wrongAns++;
+                userGuess = "";
+                $("#answer_plate").html("<p id='wrongAns'>! The correct answer is: " + pick.Choice[pick.Ans] + "</p>");
+
+            }
+        
+            Nextquest();
+
+        })
+    }
+
+    function Nextquest() {
+        $('#wrongAns').empty();
+        showQuestion();
+        makeOnClick();
+        runTimer();
+
+
+        for (var i = 0; i < output.length; i++) {
+            holder.push(output[i]);
         }
-    })
-}
-
+    };
 
 });
+
