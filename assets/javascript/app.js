@@ -29,50 +29,28 @@ $(document).ready(function () {
             Question: "What country is the highest producer of gold in Africa?",
             Choice: ["Ghana", "South Africa", "Nigeria", "Togo"],
             Ans: 1,
-        }],
+        }];
 
-    var correctAns = 0;
-    var wrongAns = 0;
-    var unAnsd = 0;
-    var timer = 5;
-    var intervalId;
-    var userGuess = "";
-    var running = false;
-    var NumQuestion = output.length;
-    var pick;
-    var index;
-    var newArray = [];
-    var holder = [];
+        var correctAns = 0;
+        var wrongAns = 0;
+        var unAnsd = 0;
+        var timer = 30;
+        var intervalId;
+        var userGuess = "";
+        var running = false;
+        var NumQuestion = output.length;
+        var index =  Math.floor(Math.random() * NumQuestion);
+        var pick = output[index];
+        var newArray = [];
+        var holder = [];
 
-    $("#reset").hide();
-
-    //click to start game
-    $("#start").on("click", function () {
-        $("#start").hide();
-        showQuestion();
-       runTimer();
-        for (var i = 0; i < output.length; i++) {
-            holder.push(output[i]);
-        }
-    });
+    
+    
     //starting the timer
     function runTimer() {
         if (!running) {
             intervalId = setInterval(decrement, 1000);
             running = true;
-        }
-    }
-    //countdown of the timer
-    function decrement() {
-        $("#timeleft").html("<h3>Time remaining: " + timer + "</h3>");
-        timer--;
-
-        //stop timer when 0
-        if (timer === 0) {
-            unAnsd++;
-            stop();
-            $("#answer_plate").html("<p>Time is up! The correct answer is: " + pick.choice[pick.answer] + "</p>");
-
         }
     }
 
@@ -82,43 +60,77 @@ $(document).ready(function () {
         clearInterval(intervalId);
     }
 
-        function showQuestion() {
-            index = Math.floor(Math.random() * NumQuestion);
-            pick = output[index];
+    function showQuestion() {
+        index = Math.floor(Math.random() * NumQuestion);
+        pick = output[index];
 
-            $("#question_plate").html("<h2>" + pick.Question + "</h2>");
-            
-            for (var i = 0; i < pick.Choice.length; i++) {
-                var userselect = $("<div>");
-                userselect.addClass("answerchoice");
-                userselect.html(pick.Choice[i]);
-                //assign array position to it so can check answer
-                userselect.attr("user_data", i);
-                $("#answer_plate").append(userselect);
-            }
+        $("#question_plate").html("<h2>" + pick.Question + "</h2>");
+
+        for (var i = 0; i < pick.Choice.length; i++) {
+            var userselect = $("<div>");
+            userselect.addClass("answerchoice");
+            userselect.html(pick.Choice[i]);
+            //assign array position to it so can check answer
+            userselect.attr("user_data", i);
+            $("#answer_plate").append(userselect);
         }
+    }
 
-
-        $(".answerchoice").on("click", function () {
-            //pick array position from userGuess
-            userGuess = parseInt($(this).attr("user_data"));
+    //click to start game
+    $("#start").on("click", function () {
+        $("#start").hide();
+        $("#reset").hide();
+        showQuestion();
+        makeOnClick();
+        runTimer();
         
-            //outcomes results
-            if (userGuess === pick.answer) {
-                stop();
-                correctAns++;
-                userGuess="";
-                $("#answer_plate").html("<p>Correct!</p>");
-            
-        
-            } else {
-                stop();
-                wrongAns++;
-                userGuess="";
-                $("#answer_plate").html("<p>Wrong! The correct answer is: " + pick.choice[pick.answer] + "</p>");
-            
-            }
-        })
-        
+   
+        for (var i = 0; i < output.length; i++) {
+            holder.push(output[i]);
+        }
+    });
     
+
+    //countdown of the timer
+    function decrement() {
+        $("#timeleft").html("<h3>Time remaining: " + timer + "</h3>");
+        timer--;
+
+        //stop timer when 0
+        if (timer === 0) {
+            unAnsd++;
+            stop();
+            $("#answer_plate").html("<p>Time is up! The correct answer is: " + pick.Choice[pick.Ans] + "</p>");
+
         }
+    }
+
+
+   
+function makeOnClick(){
+
+    
+    $(".answerchoice").on("click", function () {
+        //pick array position from userGuess
+        console.log("answerchoice");
+        userGuess = parseInt($(this).attr("user_data"));
+        //outcomes results
+        if (userGuess === pick.answer) {
+            stop();
+            correctAns++;
+            userGuess = "";
+            $("#answer_plate").html("<p>Correct!</p>");
+            
+            
+        } else {
+            stop();
+            wrongAns++;
+            userGuess = "";
+            $("#answer_plate").html("<p>Wrong! The correct answer is: " + pick.Choice[pick.Ans] + "</p>");
+            
+        }
+    })
+}
+
+
+});
